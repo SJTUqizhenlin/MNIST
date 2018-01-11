@@ -1,5 +1,5 @@
 import tensorflow as tf
-import tensorflow.examples.tutorials.mnist.input_data as input_data
+import input_data
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
@@ -52,13 +52,13 @@ b_fc2 = bias_variable([10])
 y_conv = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 
 cross_entropy = -tf.reduce_sum(y_ * tf.log(y_conv))
-train_step = tf.train.AdamOptimizer(0.0001).minimize(cross_entropy)
+train_step = tf.train.AdamOptimizer(0.001).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float32"))
 sess = tf.InteractiveSession()
 sess.run(tf.global_variables_initializer())
 
-for i in range(10000):
+for i in range(2000):
     batch = mnist.train.next_batch(50)
     if i % 50 == 0:
         print("step %d, training accuracy %g" % (i, accuracy.eval(feed_dict={
